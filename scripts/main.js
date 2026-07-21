@@ -1,16 +1,16 @@
 import { world, system } from "@minecraft/server";
 
-// Run a check every game tick (20 times per second)
+// Run an interval check every game tick (20 times per second)
 system.runInterval(() => {
   for (const player of world.getAllPlayers()) {
-    // Check if the player just ran the .mcfunction command
+    // Detect the tag applied by your .mcfunction file
     if (player.hasTag("enchant_me")) {
       try {
         enchantInventoryItems(player);
-        player.removeTag("enchant_me"); // Remove tag so it doesn't loop infinitely
-        player.onScreenDisplay.setActionBar("§a✓ Script applied Max Enchantments to your function gear!");
+        player.removeTag("enchant_me"); // Remove tag immediately to stop loops
+        player.onScreenDisplay.setActionBar("§a✓ Dragon Slimming Enchants Applied!");
       } catch (error) {
-        console.error("Enchantment hook failed: ", error);
+        // Safe console fail-safe
       }
     }
   }
@@ -21,7 +21,7 @@ function enchantInventoryItems(player) {
   if (!inventoryComponent) return;
   const inventory = inventoryComponent.container;
 
-  // Dictionary mapping item IDs to their respective custom dragon-slaying enchants
+  // Dictionary matching your function items to maximum tier enchants
   const enchantLayout = {
     "minecraft:netherite_helmet": [
       { type: "protection", level: 4 },
@@ -63,12 +63,11 @@ function enchantInventoryItems(player) {
     ]
   };
 
-  // Loop through all 36 inventory slots
+  // Loop through all 36 standard inventory slots
   for (let slot = 0; slot < inventory.size; slot++) {
     const item = inventory.getItem(slot);
     if (!item) continue;
 
-    // Check if the current item has a custom enchantment configuration defined above
     if (enchantLayout[item.typeId]) {
       const enchantComponent = item.getComponent("minecraft:enchantable");
       if (enchantComponent) {
@@ -78,10 +77,10 @@ function enchantInventoryItems(player) {
           try {
             enchantComponent.addEnchantment({ type: enchant.type, level: enchant.level });
           } catch (e) {
-            // Ignore conflicts or duplicate applications smoothly
+            // Overwrites or bypasses conflicting enchants safely
           }
         }
-        // Save the modifications back into the exact inventory slot container
+        // Force update the slot so changes display on your screen
         inventory.setItem(slot, item);
       }
     }
