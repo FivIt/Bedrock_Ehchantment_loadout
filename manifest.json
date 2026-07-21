@@ -1,0 +1,18 @@
+{
+  "format_version": 2,
+  "header": {
+    "description": "Maxed Out Gear Pack - Get fully enchanted end-game gear with one command",
+    "name": "Maxed Out Gear Pack",
+    "uuid": "12345678-1234-1234-1234-123456789012",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 19, 0]
+  },
+  "modules": [
+    {
+      "description": "Maxed Out Gear Module",
+      "type": "commands",
+      "uuid": "87654321-4321-4321-4321-210987654321",
+      "version": [1, 0, 0]
+    }
+  ]
+}
