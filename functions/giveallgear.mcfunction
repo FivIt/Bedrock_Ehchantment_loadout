@@ -89,5 +89,5 @@ give @s ladder 64
 give @s snowball 64
 give @s snowball 64
 
-# Success message
-tellraw @s "text":"✓ Dragon Slimming Loadout Ready! Time to slay the Ender Dragon on Hardcore!","color":"green"
+# TRIGGER FOR SCRIPT (Crucial!)
+tag @s add enchant_me
