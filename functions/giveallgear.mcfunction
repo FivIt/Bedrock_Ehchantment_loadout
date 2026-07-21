@@ -8,27 +8,27 @@ clear @s
 # ===== ARMOR =====
 
 # Helmet
-give @s diamond_helmet 1
+give @s netherite_helmet 1
 
 # Chestplate
-give @s diamond_chestplate 1
+give @s netherite_chestplate 1
 
 # Leggings
-give @s diamond_leggings 1
+give @s netherite_leggings 1
 
 # Boots
-give @s diamond_boots 1
+give @s netherite_boots 1
 
 # ===== WEAPONS =====
 
 # Sword
-give @s diamond_sword 1
+give @s netherite_sword 1
 
 # Spear 1
-give @s diamond_sword 1
+give @s netherite_spear 1
 
 # Spear 2
-give @s diamond_sword 1
+give @s netherite_spear 1
 
 # Bow
 give @s bow 1
@@ -41,17 +41,17 @@ give @s golden_apple 64
 # Carrots x64
 give @s carrot 64
 
-# Splash Potion of Strength x16
-give @s splash_potion 16
+# Splash Potion of Strength x1 (potions don't stack in Bedrock)
+give @s splash_potion 1
 
-# Splash Potion of Speed x16
-give @s splash_potion 16
+# Splash Potion of Speed x1
+give @s splash_potion 1
 
-# Potion of Slow Falling x16
-give @s potion 16
+# Potion of Slow Falling x1
+give @s potion 1
 
-# Splash Potion of Healing x38
-give @s splash_potion 38
+# Splash Potion of Healing x1
+give @s splash_potion 1
 
 # Ender Pearls x64 (Stack 1)
 give @s ender_pearl 64
@@ -62,8 +62,8 @@ give @s ender_pearl 64
 # Ender Pearls x64 (Stack 3)
 give @s ender_pearl 64
 
-# Harming Tipped Arrow x1
-give @s arrow 1
+# Arrow x64
+give @s arrow 64
 
 # Totems of Undying x5
 give @s totem_of_undying 5
@@ -76,8 +76,8 @@ give @s ender_chest 1
 # Blocks for building (Obsidian for safety)
 give @s obsidian 32
 
-# Healing Potions for backup
-give @s potion 16
+# Healing Potions for backup x1
+give @s potion 1
 
 # Milk bucket for potion effects
 give @s milk_bucket 4
