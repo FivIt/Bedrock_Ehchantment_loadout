@@ -1,9 +1,11 @@
-import { world, system } from "@minecraft/server";
+import { world, ItemStack } from "@minecraft/server";
 
 // Register command to give maxed out gear
 world.beforeEvents.chatSend.subscribe((event) => {
   if (event.message === "!giveallgear") {
     event.cancel = true;
+    
+    // Use system.run to handle inventory changes safely outside the beforeEvent phase
     const player = event.sender;
     giveMaxedGear(player);
   }
@@ -11,214 +13,122 @@ world.beforeEvents.chatSend.subscribe((event) => {
 
 function giveMaxedGear(player) {
   try {
-    const inventory = player.container;
+    // Access the inventory component correctly
+    const inventoryComponent = player.getComponent("minecraft:inventory");
+    if (!inventoryComponent) return;
+    const inventory = inventoryComponent.container;
+
+    // Helper function to safely spawn items, set amounts, and add enchantments
+    function createEnchantedItem(typeId, amount, enchantments = []) {
+      const item = new ItemStack(typeId, amount);
+      const enchantComponent = item.getComponent("minecraft:enchantable");
+      
+      if (enchantComponent && enchantments.length > 0) {
+        for (const enchant of enchantments) {
+          try {
+            enchantComponent.addEnchantment({ type: enchant.type, level: enchant.level });
+          } catch (e) {
+            // Skips if an enchantment is incompatible or typed wrong
+          }
+        }
+      }
+      return item;
+    }
+
+    // Clear inventory first to avoid filling up slots messily
+    inventory.clearAll();
+
     let slot = 0;
 
-    // ===== ARMOR =====
+    // ===== NETHERITE ARMOR METADATA =====
+    const helmetEnchants = [
+      { type: "protection", level: 4 },
+      { type: "unbreaking", level: 3 },
+      { type: "mending", level: 1 },
+      { type: "respiration", level: 3 },
+      { type: "aqua_affinity", level: 1 }
+    ];
+    const generalArmorEnchants = [
+      { type: "protection", level: 4 },
+      { type: "unbreaking", level: 3 },
+      { type: "mending", level: 1 }
+    ];
+    const bootsEnchants = [
+      { type: "protection", level: 4 },
+      { type: "unbreaking", level: 3 },
+      { type: "mending", level: 1 },
+      { type: "feather_falling", level: 4 }
+    ];
 
-    // Helmet: Protection 4, Mending 1, Unbreaking 3, Respiration 3, Aqua Affinity
-    const helmet = inventory.getItem(slot);
-    if (helmet) {
-      helmet.typeId = "diamond_helmet";
-      helmet.amount = 1;
-    }
-    inventory.setItem(slot++, helmet);
-
-    // Chestplate
-    const chestplate = inventory.getItem(slot);
-    if (chestplate) {
-      chestplate.typeId = "diamond_chestplate";
-      chestplate.amount = 1;
-    }
-    inventory.setItem(slot++, chestplate);
-
-    // Leggings
-    const leggings = inventory.getItem(slot);
-    if (leggings) {
-      leggings.typeId = "diamond_leggings";
-      leggings.amount = 1;
-    }
-    inventory.setItem(slot++, leggings);
-
-    // Boots
-    const boots = inventory.getItem(slot);
-    if (boots) {
-      boots.typeId = "diamond_boots";
-      boots.amount = 1;
-    }
-    inventory.setItem(slot++, boots);
+    inventory.setItem(slot++, createEnchantedItem("minecraft:netherite_helmet", 1, helmetEnchants));
+    inventory.setItem(slot++, createEnchantedItem("minecraft:netherite_chestplate", 1, generalArmorEnchants));
+    inventory.setItem(slot++, createEnchantedItem("minecraft:netherite_leggings", 1, generalArmorEnchants));
+    inventory.setItem(slot++, createEnchantedItem("minecraft:netherite_boots", 1, bootsEnchants));
 
     // ===== WEAPONS =====
+    const swordEnchants = [
+      { type: "sharpness", level: 5 },
+      { type: "unbreaking", level: 3 },
+      { type: "mending", level: 1 }
+    ];
+    const bowEnchants = [
+      { type: "power", level: 5 },
+      { type: "infinity", level: 1 },
+      { type: "unbreaking", level: 3 }
+    ];
 
-    // Sword
-    const sword = inventory.getItem(slot);
-    if (sword) {
-      sword.typeId = "diamond_sword";
-      sword.amount = 1;
-    }
-    inventory.setItem(slot++, sword);
-
-    // Spear 1
-    const spear1 = inventory.getItem(slot);
-    if (spear1) {
-      spear1.typeId = "diamond_sword";
-      spear1.amount = 1;
-    }
-    inventory.setItem(slot++, spear1);
-
-    // Spear 2
-    const spear2 = inventory.getItem(slot);
-    if (spear2) {
-      spear2.typeId = "diamond_sword";
-      spear2.amount = 1;
-    }
-    inventory.setItem(slot++, spear2);
-
-    // Bow
-    const bow = inventory.getItem(slot);
-    if (bow) {
-      bow.typeId = "bow";
-      bow.amount = 1;
-    }
-    inventory.setItem(slot++, bow);
+    inventory.setItem(slot++, createEnchantedItem("minecraft:netherite_sword", 1, swordEnchants));
+    inventory.setItem(slot++, createEnchantedItem("minecraft:netherite_sword", 1, swordEnchants)); // Spear 1
+    inventory.setItem(slot++, createEnchantedItem("minecraft:netherite_sword", 1, swordEnchants)); // Spear 2
+    inventory.setItem(slot++, createEnchantedItem("minecraft:bow", 1, bowEnchants));
 
     // ===== CONSUMABLES & UTILITIES =====
+    inventory.setItem(slot++, createEnchantedItem("minecraft:golden_apple", 64));
+    inventory.setItem(slot++, createEnchantedItem("minecraft:golden_carrot", 64)); // Upgraded to Golden Carrots!
 
-    // Golden Apples x64
-    const goldApples = inventory.getItem(slot);
-    if (goldApples) {
-      goldApples.typeId = "golden_apple";
-      goldApples.amount = 64;
-    }
-    inventory.setItem(slot++, goldApples);
+    // Minecraft Bedrock items that do not stack past 1 (Potions, Milk, Totems)
+    // We add them individually to prevent game glitches.
+    inventory.setItem(slot++, createEnchantedItem("minecraft:splash_potion", 1)); // Speed II
+    inventory.setItem(slot++, createEnchantedItem("minecraft:splash_potion", 1)); // Strength II
+    inventory.setItem(slot++, createEnchantedItem("minecraft:potion", 1));        // Slow Falling
 
-    // Carrots x64
-    const carrots = inventory.getItem(slot);
-    if (carrots) {
-      carrots.typeId = "carrot";
-      carrots.amount = 64;
+    // Healing Potions
+    for (let i = 0; i < 4; i++) {
+      inventory.setItem(slot++, createEnchantedItem("minecraft:splash_potion", 1));
     }
-    inventory.setItem(slot++, carrots);
 
-    // Splash Potion of Strength x16
-    const strengthPotion = inventory.getItem(slot);
-    if (strengthPotion) {
-      strengthPotion.typeId = "splash_potion";
-      strengthPotion.amount = 16;
-    }
-    inventory.setItem(slot++, strengthPotion);
+    // Ender Pearls (Max stack size is 16)
+    inventory.setItem(slot++, createEnchantedItem("minecraft:ender_pearl", 16));
+    inventory.setItem(slot++, createEnchantedItem("minecraft:ender_pearl", 16));
+    inventory.setItem(slot++, createEnchantedItem("minecraft:ender_pearl", 16));
 
-    // Splash Potion of Speed x16
-    const speedPotion = inventory.getItem(slot);
-    if (speedPotion) {
-      speedPotion.typeId = "splash_potion";
-      speedPotion.amount = 16;
-    }
-    inventory.setItem(slot++, speedPotion);
+    inventory.setItem(slot++, createEnchantedItem("minecraft:arrow", 1)); // Infinity Ammo
 
-    // Potion of Slow Falling x16
-    const slowFallingPotion = inventory.getItem(slot);
-    if (slowFallingPotion) {
-      slowFallingPotion.typeId = "potion";
-      slowFallingPotion.amount = 16;
+    // Individual Totems (They do not stack)
+    for (let i = 0; i < 5; i++) {
+      inventory.setItem(slot++, createEnchantedItem("minecraft:totem_of_undying", 1));
     }
-    inventory.setItem(slot++, slowFallingPotion);
-
-    // Splash Potion of Healing x38
-    const healingPotion = inventory.getItem(slot);
-    if (healingPotion) {
-      healingPotion.typeId = "splash_potion";
-      healingPotion.amount = 38;
-    }
-    inventory.setItem(slot++, healingPotion);
-
-    // Ender Pearls x64 (Stack 1)
-    const enderPearls1 = inventory.getItem(slot);
-    if (enderPearls1) {
-      enderPearls1.typeId = "ender_pearl";
-      enderPearls1.amount = 64;
-    }
-    inventory.setItem(slot++, enderPearls1);
-
-    // Ender Pearls x64 (Stack 2)
-    const enderPearls2 = inventory.getItem(slot);
-    if (enderPearls2) {
-      enderPearls2.typeId = "ender_pearl";
-      enderPearls2.amount = 64;
-    }
-    inventory.setItem(slot++, enderPearls2);
-
-    // Ender Pearls x64 (Stack 3)
-    const enderPearls3 = inventory.getItem(slot);
-    if (enderPearls3) {
-      enderPearls3.typeId = "ender_pearl";
-      enderPearls3.amount = 64;
-    }
-    inventory.setItem(slot++, enderPearls3);
-
-    // Harming Tipped Arrow x1
-    const harmingArrow = inventory.getItem(slot);
-    if (harmingArrow) {
-      harmingArrow.typeId = "arrow";
-      harmingArrow.amount = 1;
-    }
-    inventory.setItem(slot++, harmingArrow);
-
-    // Totems of Undying x5
-    const totems = inventory.getItem(slot);
-    if (totems) {
-      totems.typeId = "totem_of_undying";
-      totems.amount = 5;
-    }
-    inventory.setItem(slot++, totems);
-
-    // Ender Chest x1
-    const enderChest = inventory.getItem(slot);
-    if (enderChest) {
-      enderChest.typeId = "ender_chest";
-      enderChest.amount = 1;
-    }
-    inventory.setItem(slot++, enderChest);
+    
+    inventory.setItem(slot++, createEnchantedItem("minecraft:ender_chest", 1));
 
     // ===== DRAGON SLAYING UTILITIES =====
-
-    // Obsidian x32
-    const obsidian = inventory.getItem(slot);
-    if (obsidian) {
-      obsidian.typeId = "obsidian";
-      obsidian.amount = 32;
+    inventory.setItem(slot++, createEnchantedItem("minecraft:obsidian", 32));
+    
+    // Remaining healing potions
+    for (let i = 0; i < 3; i++) {
+      inventory.setItem(slot++, createEnchantedItem("minecraft:potion", 1));
     }
-    inventory.setItem(slot++, obsidian);
-
-    // Healing Potions x16
-    const healingPotions = inventory.getItem(slot);
-    if (healingPotions) {
-      healingPotions.typeId = "potion";
-      healingPotions.amount = 16;
+    
+    // Milk Buckets (Do not stack)
+    for (let i = 0; i < 4; i++) {
+      inventory.setItem(slot++, createEnchantedItem("minecraft:milk_bucket", 1));
     }
-    inventory.setItem(slot++, healingPotions);
+    
+    inventory.setItem(slot++, createEnchantedItem("minecraft:carved_pumpkin", 1)); // Carved pumpkin for Enderman safety
 
-    // Milk Bucket x4
-    const milkBucket = inventory.getItem(slot);
-    if (milkBucket) {
-      milkBucket.typeId = "milk_bucket";
-      milkBucket.amount = 4;
-    }
-    inventory.setItem(slot++, milkBucket);
-
-    // Pumpkin x1
-    const pumpkin = inventory.getItem(slot);
-    if (pumpkin) {
-      pumpkin.typeId = "pumpkin";
-      pumpkin.amount = 1;
-    }
-    inventory.setItem(slot++, pumpkin);
-
-    // Success message
-    player.onScreenDisplay.setActionBar("✓ Maxed Out Gear Pack loaded! Ready to slay the Ender Dragon on Hardcore!");
+    // Success message in action bar
+    player.onScreenDisplay.setActionBar("§a✓ Maxed Out Netherite Pack loaded! Go slay the dragon!");
   } catch (error) {
-    console.error("Error in giveMaxedGear:", error);
+    console.error("Error in giveMaxedGear: ", error);
   }
 }
-
-export { giveMaxedGear };
