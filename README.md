@@ -50,4 +50,4 @@ If the script module fails to load (you'll see a "missing dependency" error), th
 - The Carved Pumpkin isn't equipped by default since it'd replace the enchanted helmet. Swap it on manually if endermen are piling up.
 - Both spears exist because Lunge and Mending can't go on the same item.
 
-## Author's note: The code is free to use, I didnt put a hand coding its just Claude's work and I just put ideas and words for him, so feel free to use this and edit any thing you want
+**Author's note**: *The code is free to use, I didnt put a hand coding its just Claude's work and I just put ideas and words for him, so feel free to use this and edit any thing you want*
