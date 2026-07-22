@@ -1,59 +1,51 @@
-# Maxed Out Gear Pack - Hardcore Edition
+# DragonSlimmer Gear Pack
 
-A Minecraft Bedrock behavior pack that gives you fully enchanted end-game gear with a single command. Optimized for Hardcore mode.
+A Minecraft Bedrock behavior pack for practicing Ender Dragon fights. One command drops a full netherite loadout into exact inventory slots, already enchanted and already equipped, no holding items, no manual enchanting 
 
-## Installation
+![Made with Claude](https://img.shields.io/badge/Made%20with-Claude-d97757)
 
-1. Download this pack
-2. Place it in your Minecraft Bedrock `behavior_packs` folder
-3. Enable it in your world settings
+## Install
 
-## Usage
+1. Download `DarwinGearPack.mcpack`.
+2. Open it from your device's file manager so Minecraft imports it.
+3. In your world settings, add **DragonSlimmer Gear Pack** under Global Resources / Behavior Packs.
+4. Turn **Cheats** on for that world. Required, both the command block and the script depend on it.
 
-Run this command in your world:
+## To Use
+- Chat `/scriptevent darwin:gear`
 
-```
-/function giveallgear
-```
+or Place one command block:
 
-## What You Get
+- Type: Impulse
+- Needs Redstone: ON
+- Command: `/scriptevent darwin:gear`
+- A button or lever on top
 
-### Armor (All with Protection 4, Mending 1, Unbreaking 3)
-- **Helmet**: + Respiration 3, Aqua Affinity
-- **Chestplate**: Full protection
-- **Leggings**: + Swift Sneak 3
-- **Boots**: + Feather Falling 4, Depth Strider 3
+Press it once. Armor and offhand totem equip automatically, everything else lands in the exact slot listed below.
 
-### Weapons
-- **Sword**: Sharpness 5, Mending, Unbreaking 3, Looting 3, Fire Aspect 2, Knockback 2
-- **Spear 1**: Same as sword
-- **Spear 2**: Sharpness 5, Mending, Unbreaking 3, Looting 3, Fire Aspect 2, Knockback 2, **Lunge 3**
-- **Bow**: Power 5, Unbreaking 3, Flame 1, Infinity 1
+If the script module fails to load (you'll see a "missing dependency" error), the pack falls back to a manual 9-button setup in `functions/`, one button per item, hold it and press the matching button to enchant. Slower, but doesn't depend on the scripting API.
 
-### Consumables & Utilities
-- Golden Apples x64
-- Carrots x64
-- Splash Potions (Strength, Speed, Healing) x2 each
-- Potions of Slow Falling x2
-- Ender Pearls x192 (3 stacks)
-- Harming Tipped Arrow x1
-- Totems of Undying x5
-- Ender Chest x1
+## Loadout
 
-### Dragon Slaying Utilities (Hardcore Safe)
-- End Crystals x4
-- Obsidian x32 (for building protection)
-- Healing Potions x16 (backup healing)
-- Milk Buckets x4 (for potion effect clearing)
+**Equipped**
+| Slot | Item | Enchants |
+|---|---|---|
+| Head | Netherite Helmet | Protection IV, Unbreaking III, Mending I, Respiration III, Aqua Affinity I |
+| Chest | Netherite Chestplate | Protection IV, Unbreaking III, Mending I |
+| Legs | Netherite Leggings | Protection IV, Unbreaking III, Mending I, Swift Sneak III |
+| Feet | Netherite Boots | Protection IV, Unbreaking III, Mending I, Feather Falling IV, Depth Strider III |
+| Offhand | Totem of Undying | — |
 
-## Features
+**Row 1 (hotbar)**: Netherite Sword (Sharpness V, Unbreaking III, Mending I, Looting III, Fire Aspect II, Knockback II) · Spear — Lunge III build (no Mending, they conflict) · Spear — Mending build · Bow (Power V, Unbreaking III, Flame I, Infinity I) · Golden Carrot ×64 · Golden Apple ×64 · Ender Pearl ×16 · Totem (backup) · Snow ×64
 
-✓ One-command loadout
-✓ Fully maxed enchantments
-✓ Spear 2 has Lunge 3 for extra mobility
-✓ Dragon-slaying optimized for Hardcore
-✓ No explosive items (safe for Hardcore)
-✓ Instant inventory fill
-✓ Color-coded items with custom names
+**Row 2**: Ender Pearl ×16 ×2 · Snow ×64 ×3 · Totem (backup) ×3 · Netherite Shovel
 
-Good luck on your Hardcore run!
+**Row 3**: Splash Potion of Strength (Extended) ×4 · Arrow ×1 (plain — see note below) · Splash Potion of Instant Health II ×3 · Carved Pumpkin
+
+**Row 4**: Ender Chest · Splash Potion of Swiftness (Extended) ×4 · Splash Potion of Instant Health II ×3
+
+## Notes
+
+- Snow blocks (not layers) are for pillaring up to crystals fast, not explosion protection, a crystal blast destroys them instantly.
+- The Carved Pumpkin isn't equipped by default since it'd replace the enchanted helmet. Swap it on manually if endermen are piling up.
+- Both spears exist because Lunge and Mending can't go on the same item.
