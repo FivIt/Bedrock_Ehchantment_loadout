@@ -144,7 +144,7 @@ function buildKit(player) {
 }
 
 system.afterEvents.scriptEventReceive.subscribe((ev) => {
-  if (ev.id !== "darwin:gear") return;
+  if (ev.id !== "dragon:gear") return;
 
   let player = ev.sourceEntity;
   if (!player || player.typeId !== "minecraft:player") {
@@ -292,7 +292,7 @@ function buildKit(player) {
 }
 
 system.afterEvents.scriptEventReceive.subscribe((ev) => {
-  if (ev.id !== "darwin:gear") return;
+  if (ev.id !== "dragon:gear") return;
 
   let player = ev.sourceEntity;
   if (!player || player.typeId !== "minecraft:player") {
