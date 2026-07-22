@@ -1,20 +1,24 @@
 {
   "format_version": 2,
   "header": {
-    "description": "Enchants inventory items from your function command.",
-    "name": "Dragon Slimming Enchant Hook",
-    "uuid": "7a3b1182-4f11-4b1a-9642-4ee8b122cb43",
-    "version": [1, 0, 0],
+    "name": "Darwin Gear Pack",
+    "description": "One button gear, enchant, and auto-equip",
+    "uuid": "b6d1d5c8-6657-4fba-8baf-d7a913dcdf91",
+    "version": [1, 1, 0],
     "min_engine_version": [1, 21, 0]
   },
   "modules": [
     {
-      "description": "Script Module",
+      "type": "data",
+      "uuid": "0b228b37-d409-4118-a51c-b799ffbc1884",
+      "version": [1, 0, 0]
+    },
+    {
       "type": "script",
       "language": "javascript",
-      "uuid": "2d8f99e3-e841-4df2-bd32-8df7dca22e11",
-      "version": [1, 0, 0],
-      "entry": "scripts/main.js"
+      "uuid": "291598c4-034e-4fe1-b4e6-da488351e4f1",
+      "entry": "scripts/main.js",
+      "version": [1, 0, 0]
     }
   ],
   "dependencies": [
