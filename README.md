@@ -59,7 +59,7 @@ or Place one command block:
 - Snow blocks (not layers) are for pillaring up to crystals fast, not explosion protection, with shovel you can turn them into snow balls you can only hold 16 stack of it so snow block is used to barrage the towers and destroy the crystals.
 - The Carved Pumpkin isn't equipped by default since it'd replace the enchanted helmet. Swap it on manually if endermen are piling up.
 - Both spears exist because Lunge and Mending can't go on the same item.
-
+- The Bow has infinity.
 
 <p align="center">
   <strong>Author's note</strong>: <em>The code is free to use, I didnt put a hand coding its just Claude's work and I just put ideas and words for him, so feel free to use this and edit any thing you want.</em>
