@@ -6,7 +6,7 @@ A Minecraft Bedrock behavior pack for practicing Ender Dragon fights. One comman
 
 ## Install
 
-1. Download `DarwinGearPack.mcpack`.
+1. Download `DragonSlimmerGearPack.mcpack`.
 2. Open it from your device's file manager so Minecraft imports it.
 3. In your world settings, add **DragonSlimmer Gear Pack** under Global Resources / Behavior Packs.
 4. Turn **Cheats** on for that world. Required, both the command block and the script depend on it.
