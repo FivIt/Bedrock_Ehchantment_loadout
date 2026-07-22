@@ -56,7 +56,7 @@ or Place one command block:
 
 ## Notes
 
-- Snow blocks (not layers) are for pillaring up to crystals fast, not explosion protection, a crystal blast destroys them instantly.
+- Snow blocks (not layers) are for pillaring up to crystals fast, not explosion protection, with shovel you can turn them into snow balls you can only hold 16 stack of it so snow block is used to barrage the towers and destroy the crystals.
 - The Carved Pumpkin isn't equipped by default since it'd replace the enchanted helmet. Swap it on manually if endermen are piling up.
 - Both spears exist because Lunge and Mending can't go on the same item.
 
