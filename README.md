@@ -62,7 +62,7 @@ or Place one command block:
 - The Bow has infinity.
 
 <p align="center">
-  <strong>Author's note</strong>: <em>The code is free to use, I didnt put a hand coding its just Claude's work and I just put ideas and words for him, so feel free to use this and edit any thing you want.</em>
+  <strong>Author's note</strong>: <em>The code is free to use, it's for personal use. I didnt put a hand coding its just Claude's work and I just put ideas and words for him, so feel free to use this and edit any thing you want.</em>
 </p>
 
 <p align="center">
